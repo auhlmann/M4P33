@@ -287,3 +287,41 @@ lemma not_the_nullstellensatz : {V // ∃ J, 𝕍 J = V} ≃ {I // ∃ V, 𝕀 V
 
 -- The Nullstellensatz says that the image of 𝕀 is precisely the
 -- radical ideals. One inclusion is clear (which?)
+
+
+lemma dir1 {B: set A} {J: set R}:
+B ⊆ 𝕍(J) → J ⊆ 𝕀(B):=
+begin
+  intro H1,
+  suffices H2: 𝕀 (𝕍 J) ⊆ 𝕀 B, 
+  have H3:(J ⊆ 𝕀 (𝕍 J)), from sub_𝕀𝕍 _ _,
+  tauto,
+  apply 𝕀_antimono,
+  from H1,
+end
+
+
+-- Proof that 𝕍 and 𝕀 form an antitone galois connection
+lemma antitone_galois_connection {B: set A} {J: set R}:
+B ⊆ 𝕍(J) ↔ J ⊆ 𝕀(B):=
+begin
+  split,
+    intro H1,
+    suffices H2: 𝕀 (𝕍 J) ⊆ 𝕀 B, 
+    have H3:(J ⊆ 𝕀 (𝕍 J)), from sub_𝕀𝕍 _ _,
+    from subset.trans H3 H2,
+    apply 𝕀_antimono,
+    from H1,
+
+    -- Exactly the same but with 𝕍 and 𝕀 switched
+    -- I haven't figured out how to reuse the first proof
+    intro H1,
+    suffices H2: 𝕍 (𝕀 B) ⊆ 𝕍 J, 
+    have H3:(B ⊆ 𝕍 (𝕀 B)), from sub_𝕍𝕀 _ _,
+    from subset.trans H3 H2,
+    apply 𝕀_antimono,
+    from H1,
+end
+-- proof golf
+lemma antitone_galois_connection' {B: set A} {J: set R}:
+B ⊆ 𝕍(J) ↔ J ⊆ 𝕀(B):=by tauto
